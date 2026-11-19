@@ -1,6 +1,8 @@
 
 podman build -t leaf-runner -f Dockerfile.leaf .
 
+podman build -f Dockerfile.leaf -t localhost/leaf-runner .
+
 
 ## From leaf README.md
 

@@ -1,6 +1,12 @@
+
 FROM docker.io/library/node:22-bookworm-slim
 
-RUN npm install -g @rivolink/leaf \
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends expect \
+ && rm -rf /var/lib/apt/lists/* \
+ && npm install -g @rivolink/leaf \
  && npm cache clean --force
 
-ENTRYPOINT ["leaf"]
+COPY leaf-keys.exp /usr/local/bin/leaf-keys.exp
+ENTRYPOINT ["expect", "-f", "/usr/local/bin/leaf-keys.exp", "--"]
+

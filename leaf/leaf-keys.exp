@@ -1,0 +1,21 @@
+#!/usr/bin/expect -f
+
+if {[catch {exec test -t 0 <@stdin}] || [catch {exec test -t 1 >@stdout}]} {
+    exec leaf {*}$argv <@stdin >@stdout 2>@stderr
+    exit 0
+}
+
+spawn -noecho leaf {*}$argv
+
+set slave $spawn_out(slave,name)
+proc resize {} {
+    global slave
+    if {[catch {exec stty size </dev/tty} size]} { return }
+    lassign $size rows cols
+    catch {exec stty -F $slave rows $rows cols $cols}
+}
+resize
+trap resize SIGWINCH
+
+interact -exact "\x08" {send -- "\x7f"}
+exit [lindex [wait] 3]
