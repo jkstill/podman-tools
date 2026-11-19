@@ -1,5 +1,9 @@
 
-podman build -t leaf-runner -f Dockerfile.leaf .
+# Leaf Runnner for leaf markdown viewer
+
+leaf is a terminal markdown viewer that renders markdown to the terminal with colors and formatting. This repository contains a Dockerfile to build a container image for running leaf in a consistent environment.
+
+## Rebuild leaf-runner image
 
 podman build -f Dockerfile.leaf -t localhost/leaf-runner .
 
