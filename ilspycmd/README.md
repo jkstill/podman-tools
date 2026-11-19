@@ -1,4 +1,8 @@
 
+# IlSpy Command-Line Interface
+
+[ILSpy is the open-source, cross-platform .NET assembly browser and decompiler](https://github.com/icsharpcode/ilspy)
+
 podman build -t ilspycmd .
 
 podman run --rm ilspycmd
