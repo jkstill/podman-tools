@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+podman_tty=()
+if [[ -t 1 ]]; then
+  podman_tty=(-t)
+fi
+
+mkdir -p "$HOME/.config/leaf-container"
+
+exec podman run --rm -i "${podman_tty[@]}" \
+  --user "$(id -u):$(id -g)" \
+  -e TERM="${TERM:-xterm-256color}" \
+  -e COLORTERM="${COLORTERM:-}" \
+  -e HOME=/home/leafuser \
+  -v "$PWD":"$PWD":z \
+  -v "$HOME/.config/leaf-container":/home/leafuser/.config:z \
+  -w "$PWD" \
+  localhost/leaf-runner "$@"
+

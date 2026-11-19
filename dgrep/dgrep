@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+podman_tty=()
+if [[ -t 1 ]]; then
+  podman_tty=(-t)
+fi
+
+exec podman run --rm -i "${podman_tty[@]}" \
+  --user "$(id -u):$(id -g)" \
+  -e TERM="${TERM:-xterm-256color}" \
+  -e GREP_COLORS="${GREP_COLORS:-}" \
+  -v "$PWD":"$PWD":ro,z \
+  -w "$PWD" \
+  localhost/dgrep "$@"
+
